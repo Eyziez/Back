@@ -5,6 +5,7 @@
 #include<string>
 #include<utility>
 #include<queue>
+#include <functional>
 #include "head.h"
 
 using std::max;
@@ -13,6 +14,8 @@ using std::string;
 using std::unordered_map;
 using std::pair;
 using std::queue;
+using std::greater;
+using std::priority_queue;
 
 vector<int> Solution::twoSum(vector<int>& nums, int target)
 {
@@ -161,4 +164,48 @@ int Solution::numIslands(vector<vector<char>>& grid)
 		}
 	}
 	return ans;
+}
+vector<int> Solution:: topKFrequent(vector<int>& nums, int k)
+{
+	unordered_map<int, int> count_map;
+	for (int num : nums) 
+	{
+		count_map[num]++;
+	}
+
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+	for (const auto& entry : count_map) 
+	{
+		pq.push({ entry.second, entry.first });
+		if (pq.size() > k) 
+		{
+			pq.pop();
+		}
+	}
+
+	vector<int> result;
+	while (!pq.empty()) 
+	{
+		result.push_back(pq.top().second);
+		pq.pop();
+	}
+	return result;
+}
+int Solution:: findKthLargest(vector<int>& nums, int k)
+{
+	priority_queue<int, vector<int>, greater<int>> pq;
+
+	for (int num : nums)
+	{
+		pq.push(num);
+		// 如果堆里超过 K 个数，就把最小的踢出去
+		if (pq.size() > k)
+		{
+			pq.pop();
+		}
+	}
+
+	// 堆顶就是这 K 个数里最小的，也就是整个数组里第 K 大的
+	return pq.top();
 }

@@ -18,5 +18,6 @@ public:
     int trap(vector<int>& height);
     void bfs(vector<vector<char>>& land, int x, int y);
     int numIslands(vector<vector<char>>& grid);
-
+    vector<int> topKFrequent(vector<int>& nums, int k);
+    int findKthLargest(vector<int>& nums, int k);
 };
